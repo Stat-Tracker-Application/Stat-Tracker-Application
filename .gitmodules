@@ -1,0 +1,3 @@
+[submodule "Stat-Tracker-Frontend"]
+	path = Stat-Tracker-Frontend
+	url = https://github.com/Stat-Tracker-Application/Stat-Tracker-Frontend.git
