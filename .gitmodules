@@ -4,3 +4,6 @@
 [submodule "User-API"]
 	path = User-API
 	url = https://github.com/Stat-Tracker-Application/User-API.git
+[submodule "Stat-API"]
+	path = Stat-API
+	url = https://github.com/Stat-Tracker-Application/Stat-API.git
