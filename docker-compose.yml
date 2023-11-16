@@ -1,0 +1,42 @@
+version: latest
+services:
+  Stat-Api:
+    build:
+      context: /Stat-API
+      dockerfile: Dockerfile
+    image: stat_api
+    restart: "always"
+    ports:
+      - 6000:6000
+    networks:
+      testnetwork:
+  User-Api:
+    build:
+      context: /User-API
+      dockerfile: Dockerfile
+    image: user_api
+    restart: "always"
+    ports:
+      - 5000:5000
+    networks:
+      testnetwork:
+  Gateway:
+    build:
+      context: /Write-Gateway
+      dockerfile: Dockerfile
+    image: gateway
+    restart: "always"
+    ports:
+      - 4000:4000
+    networks:
+      testnetwork:
+  # User-db:
+  #   image: mongo
+
+networks:
+  testnetwork:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/8
