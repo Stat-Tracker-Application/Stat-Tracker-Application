@@ -1,0 +1,70 @@
+version: latest
+services:
+  Stat-Api:
+    build:
+      context: /Stat-API
+      dockerfile: Dockerfile
+    image: stat_api
+    restart: "always"
+    ports:
+      - 5100:5100
+    networks:
+      stattrackernetwork:
+
+  Stat-Db:
+    image: mongo:latest
+    ports:
+      - 5150:27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: User1
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Adminpw
+      ME_CONFIG_MONGODB_URL: mongodb://User1:Adminpw@Stat-Db:27017/Stat-Db
+    networks:
+      - stattrackernetwork
+    volumes:
+      - ./init-mongo:/docker-entrypoint-initdb.d
+
+  User-Api:
+    build:
+      context: /User-API
+      dockerfile: Dockerfile
+    image: user_api
+    restart: "always"
+    ports:
+      - 5200:5200
+    networks:
+      stattrackernetwork:
+
+  User-Db:
+    image: mongo:latest
+    ports:
+      - 5250:27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: User1
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Adminpw
+      ME_CONFIG_MONGODB_URL: mongodb://User1:Adminpw@User-Db:27017/User-Db
+    networks:
+      - stattrackernetwork
+    volumes:
+      - ./init-mongo/User-db:/docker-entrypoint-initdb.d
+
+  Gateway:
+    build:
+      context: /Write-Gateway
+      dockerfile: Dockerfile
+    image: gateway
+    restart: "always"
+    ports:
+      - 4000:4000
+    networks:
+      stattrackernetwork:
+  # User-db:
+  #   image: mongo
+
+networks:
+  stattrackernetwork:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/8

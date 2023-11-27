@@ -1,0 +1,12 @@
+[submodule "Stat-Tracker-Frontend"]
+	path = Stat-Tracker-Frontend
+	url = https://github.com/Stat-Tracker-Application/Stat-Tracker-Frontend.git
+[submodule "User-API"]
+	path = User-API
+	url = https://github.com/Stat-Tracker-Application/User-API.git
+[submodule "Stat-API"]
+	path = Stat-API
+	url = https://github.com/Stat-Tracker-Application/Stat-API.git
+[submodule "Write-Gateway"]
+	path = Write-Gateway
+	url = https://github.com/Stat-Tracker-Application/Write-Gateway.git
