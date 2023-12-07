@@ -10,3 +10,6 @@
 [submodule "Write-Gateway"]
 	path = Write-Gateway
 	url = https://github.com/Stat-Tracker-Application/Write-Gateway.git
+[submodule "Authentication-Api"]
+	path = Authentication-Api
+	url = https://github.com/Stat-Tracker-Application/Authentication-Api.git
