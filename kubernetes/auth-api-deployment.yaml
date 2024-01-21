@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-api
+  template:
+    metadata:
+      labels:
+        app: auth-api
+    spec:
+      containers:
+        - name: auth-api
+          image: lokitheshady/stat-tracker-auth-api:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5300
+          env:
+            - name: AUTHDB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: authdb-config
+                  key: authdb-user
+            - name: AUTHDB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: authdb-config
+                  key: authdb-password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: auth-api
+  ports:
+    - protocol: TCP
+      port: 5300
+      targetPort: 5300

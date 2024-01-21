@@ -1,0 +1,12 @@
+apiVersion: v2
+name: write-gateway
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+dependencies:
+  - name: grafana
+    version: "7.0.21"
+    repository: "https://grafana.github.io/helm-charts"
+  - name: rabbitmq
+    version: 12.6.3
+    repository: https://charts.bitnami.com/bitnami

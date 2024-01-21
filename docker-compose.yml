@@ -48,6 +48,30 @@ services:
     volumes:
       - ./init-mongo/User-db:/docker-entrypoint-initdb.d
 
+  Auth-Api:
+    build:
+      context: /Authentication-Api
+      dockerfile: Dockerfile
+    image: auth_api
+    restart: "always"
+    ports:
+      - 5300:5300
+    networks:
+      stattrackernetwork:
+
+  Auth-Db:
+    image: mongo:latest
+    ports:
+      - 5350:27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: User1
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Adminpw
+      ME_CONFIG_MONGODB_URL: mongodb://User1:Adminpw@Auth-Db:27017/Auth-Db
+    networks:
+      - stattrackernetwork
+    volumes:
+      - ./init-mongo/Auth-db:/docker-entrypoint-initdb.d
+
   Gateway:
     build:
       context: /Write-Gateway

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: bitnami/rabbitmq:latest
+          envFrom:
+            - configMapRef:
+                name: rabbitmq-config
+          ports:
+            - containerPort: 5673
+            - containerPort: 15673 # RabbitMQ Management Console port
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+spec:
+  selector:
+    app: rabbitmq
+  ports:
+    - name: rabbitmq
+      protocol: TCP
+      port: 5673
+      targetPort: 5673
+    - name: rabbitmq-management
+      protocol: TCP
+      port: 15673 # RabbitMQ Management Console port
+      targetPort: 15673
