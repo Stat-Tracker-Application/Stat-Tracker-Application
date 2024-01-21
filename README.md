@@ -60,7 +60,12 @@ helm install helm-rabbitmq bitnami/rabbitmq -f rabbitmq-config.yaml
 
 (on a separate terminal) minikube tunnel
 (on another separate terminal) kubectl port-forward service/prometheus-deployment 9090:9090 (this will allow you to reach Prometheus on localhost:9090)
-(on yet another separate terminal (if Grafana is also running))
+(on yet another separate terminal in the same directory) docker run --rm -p 3000:3000 `
+  -e GF_AUTH_DISABLE_LOGIN_FORM=true `
+  -e GF_AUTH_ANONYMOUS_ENABLED=true `
+  -e GF_AUTH_ANONYMOUS_ORG_ROLE=Admin `
+  -v ${PWD}/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml `
+  grafana/grafana:7.1.5
 (on another terminal) kubectl port-forward service/rabbitmq 15672:15672
 ```
 
